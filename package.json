@@ -1,21 +1,47 @@
 {
   "name": "Simple-express-typescript-ceccoff",
   "version": "1.0.0",
+  "title": "Typescript + Express + Swagger + Typeorm",
   "description": "",
   "main": "index.js",
   "scripts": {
     "start:prod": "node dist/main",
+    "start:dev": "ts-node src/main.ts",
+    "build:prod": "tsc -p tsconfig.build.json",
     "lint": "eslint \"{src,apps,libs,test}/**/*.ts\" --fix",
     "test": "jest",
+    "typeorm": "ts-node node_modules/typeorm/cli.js  -f ormconfig",
+    "migration:generate": "npm run typeorm migration:generate -d src/migrations -n",
+    "migration:create": "npm run typeorm migration:create -d src/migrations -n",
+    "migration:revert": "npm run typeorm migration:revert",
+    "schema:drop": "npm run typeorm schema:drop",
     "test:watch": "jest --watch",
     "test:cov": "jest --coverage",
     "test:debug": "node --inspect-brk -r tsconfig-paths/register -r ts-node/register node_modules/.bin/jest --runInBand",
     "test:e2e": "jest --config ./test/jest-e2e.json"
   },
-  "keywords": [],
+  "nodemonConfig": {
+    "watch": [
+      "src"
+    ],
+    "exec": "npm run build && npm start",
+    "ext": "ts",
+    "delay": 1000
+  },
+  "engines": {
+    "node": ">=8.0.0"
+  },
+  "repository": "git+ssh://git@github.com/w3tec/express-typescript-boilerplate.git",
+  "keywords": [
+    "NodeJS",
+    "TypeScript",
+    "express",
+    "Typeorm"
+  ],
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "@types/jest": "^26.0.20",
     "express": "^4.17.1",
     "jest": "^26.6.3"
   },
@@ -24,5 +50,37 @@
     "@types/node": "^14.14.34",
     "ts-node": "^9.1.1",
     "typescript": "^4.2.3"
-  }
+  },
+  "husky": {
+    "hooks": {
+      "pre-commit": "lint-staged"
+    }
+  },
+  "lint-staged": {
+    "**/*": "prettier --write --ignore-unknown"
+  },
+  "jest": {
+    "moduleFileExtensions": [
+      "js",
+      "json",
+      "ts"
+    ],
+    "rootDir": "src",
+    "testRegex": ".*\\.spec\\.ts$",
+    "transform": {
+      "^.+\\.(t|j)s$": "ts-jest"
+    },
+    "collectCoverageFrom": [
+      "**/*.(t|j)s"
+    ],
+    "coverageDirectory": "../coverage",
+    "testEnvironment": "node"
+  },
+  "contributors": [
+    {
+      "name": "Diego Ceccon - Diguya",
+      "email": "diegoceccondev@outlook.com",
+      "url": "https://www.linkedin.com/in/diego-ceccon/"
+    }
+  ]
 }
