@@ -65,6 +65,7 @@ export const env = {
     level: getOsEnv('LOG_LEVEL'),
     json: toBool(getOsEnvOptional('LOG_JSON')),
     output: getOsEnv('LOG_OUTPUT'),
+    dir: getOsEnv('LOG_DIR'),
   },
   swagger: {
     enabled: toBool(getOsEnv('SWAGGER_ENABLED')),

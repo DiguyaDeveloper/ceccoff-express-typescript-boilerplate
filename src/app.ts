@@ -1,34 +1,34 @@
-import express, { Request, Response } from 'express';
-import cors from 'cors';
+import { getLogger } from './config/logger.config';
+import { start as startHttpServer } from './config/express.config';
+import { connect as connectDb } from './config/database.config';
 import { env } from './env';
-import { ApiError, InternalError, NotFoundError } from './core/error/ApiError';
-import router from './routers/routers';
 
-const app = express();
+const logger = getLogger(__filename);
 
-app.use(cors({ origin: env.app.cors, optionsSuccessStatus: 200 }));
-
-// Routes
-app.use('/v1', router);
-
-// catch 404 and forward to error handler
-app.use((req, res, next) => next(new NotFoundError()));
-
-// Middleware Error Handler
-app.use((err: Error, req: Request, res: Response) => {
-  if (err instanceof ApiError) {
-    return ApiError.handle(err, res);
-  } else {
-    if (env.node === 'development') {
-      return res.status(500).send(err.message);
-    }
-    return ApiError.handle(new InternalError(), res);
-  }
+process.on('uncaughtException', (e) => {
+  logger.error(e);
+  process.exit(1);
 });
 
-app.listen(env.app.port, () =>{
-  console.info(`started on http://localhost:${env.app.port}/v1`);
-  console.info(`started on ${env.node}`);
+process.on('exit', (code) => {
+  logger.log(code === 0 ? 'info' : 'error', `Exiting with code ${code}`);
 });
 
-export default app;
+process.on('SIGINT', () => {
+  logger.info('Shutting down manually');
+});
+
+async function start() {
+  logger.info(`Starting server - mode ${env.node}`);
+  await connectDb();
+  await startHttpServer();
+}
+
+start()
+  .then(() => {
+    logger.info('Server ready');
+  })
+  .catch((err) => {
+    logger.error(err);
+    process.exit(1);
+  });
