@@ -16,7 +16,7 @@
   "schemes": ["http", "https"],
   "consumes": ["application/json"],
   "produces": ["application/json"],
-      
+
   "servers": [
     {
       "url": "http://localhost:3000/"
@@ -35,9 +35,7 @@
   "paths": {
     "/v1/users/register": {
       "post": {
-        "tags": [
-          "users"
-        ],
+        "tags": ["users"],
         "summary": "Add a book to the database",
         "operationId": "book-add",
         "requestBody": {
@@ -46,7 +44,8 @@
           "content": {
             "application/json": {
               "schema": {
-                "$ref": "#/components/schemas/DraftBookSchema"
+                "type": "object",
+                "$ref": "#/components/schemas/User"
               }
             }
           }
@@ -87,9 +86,7 @@
     },
     "/users/find": {
       "get": {
-        "tags": [
-          "users"
-        ],
+        "tags": ["users"],
         "summary": "Get all books in database",
         "operationId": "book-get-all",
         "responses": {
@@ -126,6 +123,44 @@
   },
   "components": {
     "schemas": {
+      "User": {
+        "type": "object",
+        "properties": {
+          "name": {
+            "type": "string",
+            "description": "Nome do user",
+            "example": "Name"
+          },
+          "lastname": {
+            "type": "string",
+            "description": "Sobrenome do user",
+            "example": "Lastname"
+          },
+          "document": {
+            "type": "string",
+            "description": "document",
+            "example": "Document number"
+          },
+          "email": {
+            "type": "string",
+            "description": "Email user",
+            "example": "Email"
+          },
+
+          "password": {
+            "type": "string",
+            "description": "Password user",
+            "example": "Password"
+          },
+
+          "termsAndConditions": {
+            "type": "number",
+            "description": "1 - Sim ou 2 - Não",
+            "example": "Term and conditions"
+          }
+        },
+        "required": ["error"]
+      },
       "BadRequestSchema": {
         "type": "object",
         "properties": {
@@ -135,9 +170,7 @@
             "example": "PATH: [author] ;; MESSAGE: \"author\" is required"
           }
         },
-        "required": [
-          "error"
-        ]
+        "required": ["error"]
       },
       "ServerErrorSchema": {
         "type": "object",
@@ -148,9 +181,7 @@
             "example": "Internal server error"
           }
         },
-        "required": [
-          "error"
-        ]
+        "required": ["error"]
       }
     }
   }
