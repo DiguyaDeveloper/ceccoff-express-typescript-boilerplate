@@ -3,7 +3,7 @@ import { Column, Entity, OneToMany, PrimaryGeneratedColumn } from 'typeorm';
 
 import { User } from './User.model';
 
-@Entity({ schema: 'public' })
+@Entity('Role')
 export class Role {
   constructor(id?: number) {
     this.id = id;

@@ -1,9 +1,9 @@
 {
   "openapi": "3.0.1",
   "info": {
-    "description": "This is server Rangger.",
+    "description": "This is server Ceccoff.",
     "version": "1.0.0",
-    "title": "Swagger Rangger",
+    "title": "Swagger Ceccoff",
     "termsOfService": "http://swagger.io/terms/",
     "contact": {
       "email": "diegoceccon1544@gmail.com"
@@ -30,29 +30,13 @@
         "description": "Find out more about our store",
         "url": "http://swagger.io"
       }
-    },
-    {
-      "name": "invitations",
-      "description": "Operations about invitation",
-      "externalDocs": {
-        "description": "Find out more about our store",
-        "url": "http://swagger.io"
-      }
-    },
-    {
-      "name": "orders",
-      "description": "Operations about order",
-      "externalDocs": {
-        "description": "Find out more about our store",
-        "url": "http://swagger.io"
-      }
     }
   ],
   "paths": {
-    "/book/add": {
+    "/v1/users/register": {
       "post": {
         "tags": [
-          "book"
+          "users"
         ],
         "summary": "Add a book to the database",
         "operationId": "book-add",
@@ -101,71 +85,13 @@
         }
       }
     },
-    "/book/all": {
+    "/users/find": {
       "get": {
         "tags": [
-          "book"
+          "users"
         ],
         "summary": "Get all books in database",
         "operationId": "book-get-all",
-        "responses": {
-          "200": {
-            "description": "Search results",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "properties": {
-                    "books": {
-                      "type": "array",
-                      "items": {
-                        "$ref": "#/components/schemas/BookSchema"
-                      }
-                    }
-                  }
-                }
-              }
-            }
-          },
-          "500": {
-            "description": "Internal Server Error",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ServerErrorSchema"
-                }
-              }
-            }
-          }
-        }
-      }
-    },
-    "/book/search": {
-      "get": {
-        "tags": [
-          "book"
-        ],
-        "summary": "Search books by name or author",
-        "operationId": "book-search",
-        "parameters": [
-          {
-            "in": "query",
-            "name": "name",
-            "schema": {
-              "type": "string",
-              "default": "hitchhiker"
-            },
-            "description": "String containing full name or partial name of the book"
-          },
-          {
-            "in": "query",
-            "name": "author",
-            "schema": {
-              "type": "string",
-              "default": "douglas"
-            },
-            "description": "String containing full name or partial name of the author"
-          }
-        ],
         "responses": {
           "200": {
             "description": "Search results",
@@ -224,55 +150,6 @@
         },
         "required": [
           "error"
-        ]
-      },
-      "DraftBookSchema": {
-        "type": "object",
-        "properties": {
-          "name": {
-            "type": "string",
-            "description": "Name of the book",
-            "example": "The Hitchhikers Guide to the Galaxy"
-          },
-          "author": {
-            "type": "string",
-            "description": "Name of the author",
-            "example": "Douglas Adams"
-          }
-        },
-        "required": [
-          "name",
-          "author"
-        ]
-      },
-      "BookSchema": {
-        "allOf": [
-          {
-            "$ref": "#/components/schemas/DraftBookSchema"
-          }
-        ],
-        "type": "object",
-        "properties": {
-          "_id": {
-            "type": "string",
-            "description": "MongoDB id of the document",
-            "example": "5d7224d3b40b1a1a046697dd"
-          },
-          "createdAt": {
-            "type": "number",
-            "description": "Created at timestamp in miliseconds",
-            "example": 1616158942428
-          },
-          "updatedAt": {
-            "type": "number",
-            "description": "Updated at timestamp in miliseconds",
-            "example": 1616158942428
-          }
-        },
-        "required": [
-          "_id",
-          "createdAt",
-          "updatedAt"
         ]
       }
     }

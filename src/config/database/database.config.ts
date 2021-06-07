@@ -1,9 +1,10 @@
+import 'reflect-metadata';
 import { ConnectionOptions, getConnectionManager } from 'typeorm';
-import { DBTypes } from './constants.config';
+import { DBTypes } from '../constants.config';
 import { env } from 'src/env';
-import * as entities from '../api/models';
+import * as entities from '../../api/models';
 
-import { getLogger } from './../config/logger.config';
+import { getLogger } from '../logger.config';
 const Logger = getLogger(__filename);
 
 export async function connect() {
@@ -25,6 +26,7 @@ function getOptions(): ConnectionOptions {
     entities: [...Object.values(entities)],
     synchronize: true,
     logging: 'all',
+    migrations: env.app.dirs.migrations,
     // Logger: new CustomTypeOrmLogger(),
   };
 

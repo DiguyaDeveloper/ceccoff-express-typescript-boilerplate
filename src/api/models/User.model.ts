@@ -10,7 +10,6 @@ import {
   Unique,
   UpdateDateColumn,
 } from 'typeorm';
-
 import { Role } from './Role.model';
 
 export enum UserStatus {
@@ -58,7 +57,7 @@ export class User {
   @IsNotEmpty({ message: 'Term and conditions is required' })
   termsAndConditions?: number;
 
-  @Column('int')
+  @Column('int', { default: 1 })
   roleId!: number;
 
   @ManyToOne(() => Role, (role) => role.users)

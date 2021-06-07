@@ -11,8 +11,6 @@ export const swagger = (router) => {
     customCss: '.swagger-ui .topbar { display: none }',
   };
 
-  // Dev routes
-  console.log('estou no swagger', env.node);
   if (env.node === 'development') {
     router.use('/dev/api-docs', swaggerUi.serve);
     router.get('/dev/api-docs', swaggerUi.setup(apiSpec, swaggerUiOptions));

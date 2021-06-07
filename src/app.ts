@@ -1,6 +1,6 @@
 import { getLogger } from './config/logger.config';
 import { start as startHttpServer } from './config/express.config';
-import { connect as connectDb } from './config/database.config';
+import { connect as connectDb } from './config/database/database.config';
 import { env } from './env';
 
 const logger = getLogger(__filename);
